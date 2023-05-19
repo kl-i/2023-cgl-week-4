@@ -1,0 +1,815 @@
+\documentclass{article}
+\input{preamble.tex}
+
+\addbibresource{mybib.bib}
+
+\begin{document}
+
+\title{Week 4 : Hecke actions}
+
+\author{Ken Lee}
+\date{Summer 2023}
+\maketitle
+
+The goal of this talk is to give a more detailed introduction
+to the spherical Hecke category in preparation for the
+three talks on geometric Satake.
+
+Brief recollection of week 1 talk : 
+\begin{enumerate}
+  \item Throughout, we fixed a smooth projective curve $X$ over
+  a base field $k$ with characteristic zero.
+  For simplicity, one should assume it to be $\bC$.
+  We also fix a reductive group $G$ over $k$.
+  \item $\BUN_G$ is the algebro-geometric version of the
+  double coset of adeles in 
+  unramified Langlands of function fields over a finite field.
+  \item Hecke eigenforms, 
+  which are certain functions on the double coset space of the adeles,
+  can be constructed from decategorifying 
+  perverse sheaves on $\BUN_G$.
+  \item Over characteristic zero, perverse sheaves and $D$-modules are
+  equivalent by the Riemann--Hilbert correspondence.
+  Categorical geometric Langlands takes this as the starting point.
+  \item affine Grassmannians are the algebro-geometric versions of
+  the homogeneous space $G((t)) / G\bbrkt{t}$
+  and hence lead to the geometric version of spherical Hecke algebras $\SPH_G$.
+  \item Given a closed point $x$ of the curve,
+  there is an action of $\SPH_G$ on $D\MOD(\BUN_G)$ called the
+  automorphic Hecke action.
+  \item Given a $G^L$ local system $\si$ on $X$,
+  there is an action of $\REP_k G^L$ on $D\MOD(\BUN_G)$
+  called the Galois Hecke action.
+  \item Geometric Satake gives $\SPH_G \simeq \REP_k G^L$
+  as tensor categories.
+  \item The automorphic Hecke action across all points can be
+  bundled to together, giving two actions of $\REP_k G^L$
+  on $D\MOD(\BUN_G)$.
+  \item modulo details about associativity,
+  a Hecke eigensheaf is a $D$-module on $\BUN_G$
+  ``such that'' the two actions of $\REP_k G^L$ coincide.
+  \footnote{
+    We put ``such that'' in quotation marks because
+    this is a structure, not a property.
+  }
+\end{enumerate}
+This talk focuses on giving more details on
+(5), (6), (9).
+
+Setup some notation : 
+\begin{itemize}
+  \item $\AFF_k$ denotes the opposite of the category of $k$-algebras.
+  \item For an affine scheme $S = \SPEC A$,
+  $D^\wedge_S , D_S , D_S^\circ$ will denote
+  $\SPF A\bbrkt{t} , \SPEC A\bbrkt{t} , \SPEC A((t))$.
+  These are the relative formal disk, disk, punctured disk over $S$.
+\end{itemize}
+
+\tableofcontents  
+
+\section{Arc groups, Loop groups and Affine Grassmannians}
+
+\begin{dfn}[Arc and loop group]
+  
+  The \emph{arc group of $G$} is defined as the functor on $\AFF_k$
+  \[
+    L^+G(S) := G(D_S)
+  \]
+  and the \emph{loop group of $G$} is defined as the functor
+  \[
+    LG(S) := G(D_S^\circ)
+  \]
+\end{dfn}
+
+Ideally, $L^+G$ should be thought of as
+the mapping space $\HOM(D , G)$ from the disk $D$ to $G$,
+and similarly $LG$ should be $\HOM(D^\circ , G)$.
+The issue is $A \otimes_k k\bbrkt{t} \not\simeq A\bbrkt{t}$ so
+this is not literally true.
+This can be fixed by using the formal disk $D^\wedge := \SPF k\bbrkt{t}$ instead
+since $\SPEC A \times \SPF k\bbrkt{t} = \SPF A\bbrkt{t}$
+and $G$ is affine.
+However, this fix does not work for the loop group $LG$ because
+``one cannot $\SPF$ the topological ring $A((t))$''.
+
+Restricting along $D_S^\circ \to D_S$ defines a
+morphism $L^+G \to LG$ of group functors.
+One can show this is a closed embedding.
+\begin{lem}
+  The morphism $L^+G \to LG$ is a closed embedding.
+  \begin{proof1}
+    Since $G$ is affine,
+    there exists a closed embedding $i : G \to \bA^N$ for some finite $N$.
+    Let $s : S \to LG$ be a point of the loop group.
+    Using $i$, we see that $s$ is given by $N$-coordinates
+    $(s_1 , \dots , s_N) \in \bA^N(D_S^\circ)$.
+    The fiber product $L^+ G \times_{LG} S$ is computed as
+    the vanishing locus of the finitely many polar terms
+    of $s_1 , \dots, s_N$.
+  \end{proof1}
+\end{lem}
+
+Here's the answer to the question of what kind of objects are
+the arc and loop group.
+\begin{prop}
+  
+  The arc group $L^+G$ is a scheme and the loop group $LG$
+  is an ind-affine scheme.
+\end{prop}
+\begin{proof}
+  
+  We define intermediate spaces : 
+  the space of $n$-jets $L^n G$ is defined as a functor by
+  \[
+    L^n G := \HOM(\SPEC k[t] / (t^{n+1}) , G)
+  \]
+  Note that $n = 1$ recovers the tangent bundle of $G$.
+  It is not hard to show that in the case of $G = \bA^1$ that
+  $L^n G$ is affine.
+  Since $G$ is affine finite type, it can be put into a 
+  cartesian square 
+  \begin{cd}
+    G & {\bA^N} \\
+    0 & {\bA^r}
+    \arrow[from=1-2, to=2-2]
+    \arrow[from=2-1, to=2-2]
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=1-1, to=1-2]
+    \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+  \end{cd}
+  Since $L^n$ is right adjoint to $\_ \times \SPEC k[t] / (t^{n+1})$,
+  is preserves limits so $L^n G$ is affine.
+  Finally, $L^+ G \simeq \LIM_{n} L^n G$ is hence also affine.
+
+  Now for the loop group.
+  It is \emph{not} true that $LG = \HOM(D^\circ , G)$,
+  but the formula 
+  \[
+    (LG)(S) = G(D_S^\circ) \overset{\text{Yoneda}}{\simeq} \mathrm{Hom}(D_S^\circ , G)
+  \]
+  still shows that $L$ commutes with limits.
+  By the same argument as above, 
+  we reduce to $G = \bA^1$.
+  One then computes 
+  \[
+    \bA^1((t))(A) = \bA^1(A((t))) = A((t))
+    \simeq \COLIM_n A\bbrkt{t} = (\COLIM_n \bA^1\bbrkt{t}) (A)
+  \]
+  where the system we are taking colimits is 
+  \[
+    \bA^1\bbrkt{t} \map{t}{} \bA^1\bbrkt{t} \map{t}{} \cdots
+  \]
+  Concretely, $\bA^1\bbrkt{t} \simeq \bA^\bN$
+  and the above transition maps shift the sequence of coefficients 
+  to the right by one.
+  One sees from this that each copy $\bA^1\bbrkt{t}$
+  is the closed subscheme of the next copy of 
+  sequences where the first coefficient is zero.
+  We have thus shown $\bA^1((t))$ is a ind-affine scheme.
+\end{proof}
+
+\begin{dfn}[Affine Grassmannian for general $G$]
+  
+  Let $G$ be an algebraic group scheme over $k$.
+  For an affine $S$,
+  define the groupoid $\GR_G(S)$ as follows :
+  \begin{itemize}
+    \item Objects are $G$-bundles on $D_S$ together with
+    a trivialisation $s : \mathrm{Triv} \simeq \res{P}{D_S^\circ}$
+    on the punctured disk $D_S^\circ$.
+    \item A morphism $(P , s) \to (Q , t)$ is 
+    a morphism $\al : P \to Q$ of $G$-bundles on $D_S$
+    respecting the trivialisations, i.e.
+    $t = \al s$.
+  \end{itemize}
+  Given a map $T \to S$ of affines,
+  there is a functor $\GR_G(S) \to \GR_G(T)$ given by
+  pulling back along $D_T \to D_S$.
+  The above forms a groupoid valued (pseudo-)functor on $\AFF_k$,
+  which we call the \emph{affine Grassmannian of $G$}.
+
+  \footnote{
+    Question to self : 
+    Why does Gaitsgory bother writing this using Tannaka formalism when
+    $G$-bundles over $D_S$ and $D_S^\circ$ are perfectly well defined?
+  }
+
+\end{dfn}
+
+Although $\GR_G$ is a-priori valued in groupoids,
+one can show that it is in fact valued in discrete groupoids
+by the following lemma.
+Hence $\GR_G$ is equivalently a set-valued functor
+sending affines $S$ to the isomorphism class of
+$G$-bundles on $D_S$ equipped with a trivialisation over $D_S^\circ$.
+
+\begin{lem}
+
+  Let $P$ be a $G$-bundle on $D_S$ where $S$ is affine
+  and $s : \TRIV \simeq \res{P}{D_S^\circ}$ a trivialisation
+  on the punctured disk.
+  Suppose $\al : P \to P$ is an (auto)morphism of $G$-bundles on $D_S$
+  such that $\al s = s$ over $D_S^\circ$.
+  Then $\al$ must be the identity.
+
+  \begin{proof1}
+    
+    (Example of trivial line bundle) 
+    Suppose $G = \GL_1$ and replace $\GL_1$-bundles with line bundles
+    and consider the case of $P = \bA^1_{D_S}$.
+    The trivialisation $s$ is equivalent to
+    an element $\cO(S)((t))^\times$.
+    Similarly, $\al$ is equivalent to an element 
+    $\al \in \cO(S)\bbrkt{t}^\times$.
+    Then we have $\al s = s$ as elements in $\cO(S)((t))^\times$.
+    Since $s$ is a unit, $\al = 1$ in $\cO(S)((t))^\times$ and 
+    hence in $\cO(S)\bbrkt{t}^\times$.
+
+    (General case) Using the same strategy as in the example,
+    we see that we only need to prove two things : 
+    \begin{enumerate}
+      \item $P$ can be trivialised after $D_{\tilde{S}} \to D_S$
+      by some fpqc cover $\tilde{S} \to S$.
+      \item After (1), we can assume $P = G \times D_S$.
+      We then need to show $G(D_S) \to G(D_S^\circ)$ is injective.
+    \end{enumerate}
+
+    For (1), the special fiber $P_0$ over $\set{0}_S \simeq S$
+    is also a $G$-bundle, and hence trivialises upon
+    passing to some fpqc cover $\tilde{S} \to S$.
+    The trivialisation of $P_0$ over 
+    $\tilde{S} \simeq \set{0}_{\tilde{S}}$ extends
+    to $D_{\tilde{S}}$ by smoothness of $G$.
+
+    For (2), using affinity of $G$ we can realise $G$
+    as a closed subscheme of $\bA^N$ for some large $N$.
+    WLOG $N = 1$.
+    This reduces to showing $\bA^1(D_S) \to \bA^1(D_S^\circ)$ is injective.
+    This is precisely the inclusion $\cO(S)\bbrkt{t} \subs \cO(S)((t))$.
+    
+  \end{proof1}
+\end{lem}
+
+% For some reason \cite{Zhu-16} talks about
+% $\GR_{\underline{G}}$ for 
+% $\underline{G}$ affine group scheme smooth over $D$.
+% The usual case is when $\underline{G} = D \times_k G$ for some
+% affine group scheme $G$ over $k$.
+
+We now give the description of the affine Grassmannian as
+a homogeneous space of the loop group.
+
+\begin{dfn}
+  
+  Define an action $\GR_G \times LG \to \GR_G$ as follows
+  \[
+    ((P , s) , g) \mapsto (P , s g)
+  \]
+\end{dfn}
+
+\begin{prop}
+  
+  The map $LG \to \GR_G$ sending $g \mapsto (\TRIV , g)$
+  is a $L^+G$-bundle.
+\end{prop}
+\begin{proof}
+  
+  We need to show the following : 
+  \begin{enumerate}
+    \item $L^+G$ acts trivially on $\GR_G$
+    \item the map $LG \to \GR_G$ is $L^+G$ equivariant
+    \item For every point $(P , s) : S \to \GR_G$ of $\GR_G$ with $S$ affine,
+    there exists an fpqc cover $\tilde{S} \to S$ such that 
+    the pullback of $LG$ to $\tilde{S}$ is isomorphic to 
+    the trivial $L^+G$ bundle.
+    \begin{cd}
+    	LG & {LG \times_{\GR_G} S} & {\tilde{S} \times L^+G} \\
+	{\GR_G} & S & {\tilde{S}}
+	\arrow[from=1-1, to=2-1]
+	\arrow["{(P ,s)}", from=2-2, to=2-1]
+	\arrow["{\text{fpqc}}", from=2-3, to=2-2]
+	\arrow[from=1-2, to=1-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-90}, draw=none, from=1-2, to=2-1]
+	\arrow[from=1-3, to=1-2]
+	\arrow[from=1-3, to=2-3]
+	\arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-90}, draw=none, from=1-3, to=2-2]
+    \end{cd}
+  \end{enumerate}
+  Goal (1) and (2) are clear.
+  (3) follows from the fact we've already seen : 
+  there exists fpqc cover $\tilde{S} \to S$
+  such that $D_{\tilde{S}} \to D_S$ trivialises $P$.
+
+\end{proof}
+
+\section{Spherical $D$-modules, Convolution}
+
+[Can skip until...]
+I find it useful to make the following auxiliary definitions,
+which are not explicitly present in Gaitsgory's notes.
+
+\begin{dfn}
+  
+  The \emph{stack of $G$-bundles on the disk} is defined as
+  by the groupoid-valued functor
+  \[
+    (\BUN_G D)(S) := \mathrm{Hom}(D_S , BG)
+  \]
+  And the \emph{stack of $G$-bundles on the punctured disk} is defined 
+  by the groupoid-valued functor
+  \[
+    (\BUN_G D^\circ)(S) := \mathrm{Hom}(D_S^\circ , BG)
+  \]
+\end{dfn}
+
+Recall that the definition of $\BUN_G X$ is 
+the internal hom $\HOM(X , BG)$.
+This begs the question whether $\BUN_G D , \BUN_G D^\circ$ are also 
+internal homs.
+\begin{enumerate}
+  \item For $\BUN_G D$ this is true by a combination of
+  the Tannakian formalism and the fact that
+  for Noetherian $A$ with ideal $I$,
+  finitely generated projective modules over $\SPEC A^\wedge_I$ and 
+  $\SPF A^\wedge_I$ are equivalent :
+  \begin{align*}
+    \mathrm{Hom}(D_S , BG) 
+    &\simeq \FUN^\otimes_{\text{ex, cts}}(\REP G , \QCOH D_S)
+    \simeq \FUN^\otimes_{\text{ex}}(\REP_{\text{f.d.}} G , \PERF D_S) \\
+    &\simeq \FUN^\otimes_{\text{ex}}(\REP_{\text{f.d.}} G , \LIM_n \PERF(n \cdot 0_S)) \\
+    &\simeq \LIM_n \FUN^\otimes_{\text{ex}}(\REP_{\text{f.d.}} G , \PERF(n \cdot 0_S)) \\
+    &\simeq \LIM_n \mathrm{Hom}(n \cdot 0_S , BG)
+    \simeq \mathrm{Hom}(\COLIM_n n \cdot 0_S , BG) \\
+    &\simeq \mathrm{Hom}(S \times D^\wedge , BG)
+    \simeq \HOM(D^\wedge , BG)(S)
+  \end{align*}
+  \item For $\BUN_G D^\circ$ this is \emph{not} true,
+  again essentially because $\SPEC A((t))$ is not computed as the fiber product
+  $\SPEC A \times \SPEC k((t))$.
+\end{enumerate}
+
+\begin{dfn}
+  
+  The local Hecke correspondence is defined as the fiber product
+  \begin{cd}
+    {\BUN_G D} & {\HECKE^\LOC} \\
+    {\BUN_G D^\circ} & {\BUN_G D}
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=2-2, to=2-1]
+    \arrow[from=1-2, to=1-1]
+    \arrow[from=1-2, to=2-2]
+    \arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-90}, draw=none, from=1-2, to=2-1]
+  \end{cd}
+\end{dfn}
+
+[... here.]
+Unraveling the definition,
+a map $S \to \HECKE^\LOC$ from an affine is the same as
+the data $(P_0 , P_1 , \al)$ where $P_i$ are $G$-bundles on $D_S$
+and $\al : \res{P_0}{D_S^\circ} \simeq \res{P_1}{D_S^\circ}$.
+This is related to the affine Grassmannian in the following way : 
+\begin{prop}
+  
+  Define $\HECKE^\LOC_\square$ by the cartesian square 
+  \begin{cd}
+    {\HECKE^\LOC} & {\HECKE^\LOC_\square} \\
+    {\BUN_G D \times\BUN_G D} & \PT
+    \arrow[from=1-1, to=2-1]
+    \arrow["{(\TRIV , \TRIV)}", from=2-2, to=2-1]
+    \arrow[from=1-2, to=1-1]
+    \arrow[from=1-2, to=2-2]
+    \arrow["\lrcorner"{anchor=center, pos=0.125, rotate=-90}, draw=none, from=1-2, to=2-1]
+  \end{cd}
+  Then \begin{enumerate}
+    \item $L^+ G \backslash \HECKE^\LOC_\square / L^+G \simeq \HECKE^\LOC$
+    \item $\HECKE^\LOC_\square \simeq LG$ respecting the
+    left and right actions of $L^+G$.
+    Hence $\HECKE^\LOC \simeq L^+G \backslash \GR_G$
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  (1) $\HECKE^\LOC_\square$ parameterises 
+  $(P_0 , P_1 , \al , s_0 : \TRIV \to P_0 , s_1 : \TRIV \to P_1)$
+  where $P_i$ are $G$-bundles on the disk.
+  Quotienting by $L^+G$ on both sides forgets the trivialisations $s_i$.
+
+  (2) We give mutual inverse functors and omit the check that it works.
+
+  $LG \to \HECKE^\LOC_\square$ takes $g \in LG(S)$ to
+  $(\TRIV , \TRIV , g , \id{} , \id{})$.
+  
+  $\HECKE^\LOC_\square \to LG$ takes an $S$-point $(P_0 , P_1 , \al , s_0 , s_1)$
+  to $s_1^{-1} \al s_0 \in LG(S)$.
+\end{proof}
+
+We now want to define the spherical Hecke category,
+which $D$-module version of the categorified spherical Hecke category.
+Ideally, we want the following definition : 
+\[
+  \SPH_G := D\MOD(\HECKE^\LOC)
+\]
+The issue is that at this point, we only really know how to do
+$D$-modules on varieties.
+The idea is to use $\HECKE^\LOC \simeq L^+G \backslash \GR_G$,
+to reduce to the case of varieties.
+There are two parts to this reduction : 
+\begin{enumerate}
+  \item $\GR_G$ is ind-projective,
+  meaning we can write it as the colimit of projective varieties
+  along closed embeddings.
+  This will be addressed in next week's talk 
+  on the geometry of the affine Grassmannian.
+  \item $D$-modules on quotient stacks.
+  It will also be shown next week that
+  one can present $\GR_G$ as a filtered colimit of
+  projective varieties $X_i$ along closed embeddings
+  such that each $X_i$ is $L^+G$-invariant and
+  the action in fact factors through an algebraic quotient of $L^+G$.
+  In preparation for that,
+  we give a short exposition of $D$-modules on
+  quotient stacks of varieties by algebraic groups in the next section.
+\end{enumerate}
+% The following will be shown in the next talk on affine Grassmannians.
+% \begin{enumerate}
+%   \item $\GR_G$ is ind-projective,
+%   meaning we can write it as the colimit of projective varieties
+%   along closed embeddings.
+%   In this situation of ind-projective varieties,
+%   there is a way of defining $D\MOD(\GR_G)$ such that
+%   for any presentation $\GR_G = \COLIM_i X_i$ as
+%   a colimit of projective varieties along closed embeddings,
+%   one has 
+%   \[
+%     D\MOD(\GR_G) \simeq \LIM_i D\MOD(X_i)
+%   \]
+%   where the limit is taken along !-pullbacks of $D$-modules.
+%   \footnote{
+%     See \cite[Section 2]{BDSeminar3}
+%   }
+%   \item One can find a presentation $\GR_G = \COLIM_{i} X_i$
+%   of the affine Grassmannian as the colimit of
+%   projective varieties $X_i$ along closed embeddings such that
+%   each $X_i$ is $L^+G$ invariant and the action of $L^+G$
+%   factors through an algebraic quotient $G_i$.
+%   One can choose the algebraic quotients such that
+%   for $X_i \subs X_j$, $G_j \twoheadrightarrow G_i$.
+%   Finally, one defines 
+%   \[
+%     D\MOD(\GR_G)^{L^+ G} := 
+%     \COLIM_{i} D\MOD(X_i)^{G_i}
+%   \]
+%   where $D\MOD(X_i)^{G_i}$ is something I will explain now.
+% \end{enumerate}
+Provided that we know how to deal with $D$-modules on
+infinite type schemes like $\GR_G, LG$ and
+their quotients nice enough actions by pro-algebraic groups like $L^+G$,
+we can now define a monoidal structure
+on $\SPH_G$ via convolution.
+\begin{dfn}[Convolution product]
+  
+  The multiplication on the loop group induces a diagram
+  involving $\HECKE^\LOC$
+  \begin{cd}
+    {L^+G \backslash LG / L^+G} & {L^+G \backslash LG \times^{L^+G} LG / L^+G} & {L^+G \backslash LG / L^+G} \\
+    & {L^+G \backslash LG / L^+G}
+    \arrow["{p_0}"', from=1-2, to=1-1]
+    \arrow["{p_1}"', from=1-2, to=2-2]
+    \arrow["m", from=1-2, to=1-3]
+  \end{cd}
+  The convolution product is defined by the following formula 
+  \[
+  \SPH_G \times \SPH_G \to \SPH_G , 
+  (\cF_0 , \cF_1) \mapsto \cF * \cG := 
+  m_!(p_0^! \cF_0 \otimes p_1^! \cF_1) 
+  \]
+  and defines a monoidal structure on $\SPH_G$.
+\end{dfn}
+
+\section{$D$-modules on quotient stacks}
+
+Let $X$ be a variety over $k$ and $G$ an algebraic group
+acting on $X$.
+With this, one can form the truncated Cech nerve of $X \to X / G$.
+\begin{cd}
+  {X \times_{X / G} X \times_{X / G} X} & 
+  {X \times_{X / G} X} & {X}
+  \arrow["{p_0}"{description}, shift left=2, from=1-2, to=1-3]
+  \arrow["{p_{12}}"{description}, from=1-1, to=1-2]
+  \arrow["{p_{02}}"{description}, shift right=4, from=1-1, to=1-2]
+  \arrow["{p_{01}}"{description}, shift left=4, from=1-1, to=1-2]
+  \arrow["{p_1}"{description}, shift right=2, from=1-2, to=1-3]
+\end{cd}
+where we have the projections 
+\begin{itemize}
+  \item $p_i : X \times_{X/G} X \to X, (x_0 , x_1) \mapsto x_i$
+  \item $p_{ij} : X \times_{X / G} X \times_{X / G} X \to X \times_{X/G} X, 
+  (x_0 , x_1, x_2) \mapsto (x_i , x_j)$
+\end{itemize}
+One can show that this is precisely the usual action groupoid :
+\begin{cd}
+  {G \times G \times X} & {G \times X} & {X}
+  \arrow[shift left=2, from=1-2, to=1-3]
+  \arrow[from=1-1, to=1-2]
+  \arrow[shift right=4, from=1-1, to=1-2]
+  \arrow[shift left=4, from=1-1, to=1-2]
+  \arrow[shift right=2, from=1-2, to=1-3]
+\end{cd}
+For an affine $S$,
+an $S$-point of $X \times_{X / G} X$ is a triple
+$(x_0 , x_1 , \phi)$ where $x_i \in X(S)$ and 
+\begin{cd}
+  {S \times G} & X \\
+	S & {S \times G}
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=2-2, to=2-1]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=2-2, to=1-2]
+	\arrow["\phi"{description}, from=1-1, to=2-2]
+\end{cd}
+where $\phi$ is $G$-equivariant.
+The data of $\phi$ is equivalent to $g \in G(S)$ such that
+$x_1 = g \cdot x_0$.
+% Here is a trick to remember what these maps do : 
+% \begin{enumerate}
+%   \item For an affine $S$, 
+%   an $S$-point of $G \times X$ is a pair $(g , x) \in G(S) \times X(S)$.
+%   Draw a ``1-simplex''
+%   \begin{cd}
+%     x & {g \cdot x}
+%     \arrow["g", squiggly, from=1-1, to=1-2]
+%   \end{cd}
+%   The map $p_i : G \times X \to X$ takes the $i$-th vertex of the 1-simplex.
+%   \item For an affine $S$,
+%   an $S$-point of $G \times G \times X$ is a triple
+%   $(g_2 , g_1 , x) \in G(S) \times G(S) \times X(S)$.
+%   Draw a ``2-simplex''
+%   \begin{cd}
+%     x & {g_1 \cdot x} \\
+%     & {g_2 \cdot (g_1 \cdot x)}
+%     \arrow["{g_1}", squiggly, from=1-1, to=1-2]
+%     \arrow["{g_2}", squiggly, from=1-2, to=2-2]
+%     \arrow["{g_2 g_1}"', squiggly, from=1-1, to=2-2]
+%   \end{cd}
+%   The map $p_{ij}$ picks out the pair of $i$-th vertex and
+%   the edge connecting the $i$-th vertex to the $j$-th vertex.
+% \end{enumerate}
+
+\begin{dfn}[$G$-equivariance]
+  
+  The category $(\QCOH X)^G$ of quasi-coherent sheaves on $X$
+  equipped with $G$-equivariance is defined as follows :
+  \begin{itemize}
+    \item An object of $(\QCOH X)^G$ is 
+    a quasi-coherent sheaf $\cF \in \QCOH X$
+    equipped with a 
+    $\phi : p_0^* \cF \cong p_1^* \cF$ 
+    in $\QCOH(X \times_{X / G} X)$ such that
+    \begin{enumerate}
+      \item $\phi = \id{}$ when restricted to the diagonal section 
+      $\De : X \to X \times_{X / G} X$
+      \item the following diagram commute in 
+      $\QCOH(X \times_{X / G} X \times_{X / G} X )$ :
+      \begin{cd}
+        & {p_{01}^*p_1^* \mathcal{F}} \\
+        {p_{01}^*p_0^*\mathcal{F}} && {p_{12}^*p_0^*\mathcal{F}} \\
+        {p_{02}^*p_0^*\mathcal{F}} && {p_{12}^*p_1^*\mathcal{F}} \\
+        & {p_{02}^*p_1^* \mathcal{F}}
+        \arrow["{p_{01}^*(\phi)}", from=2-1, to=1-2]
+        \arrow["{p_{12}^*(\phi)}", from=2-3, to=3-3]
+        \arrow["{p_{02}^*(\phi)}"', from=3-1, to=4-2]
+        \arrow["\sim"', from=2-1, to=3-1]
+        \arrow["\sim", from=1-2, to=2-3]
+        \arrow["\sim", from=3-3, to=4-2]
+      \end{cd}
+    \end{enumerate}
+    \item a morphism $\eta : (\cF , \phi) \to (\cG , \psi)$ is
+    a morphism $\eta : \cF \to \cG$ in $\QCOH X$ such that
+    the following commutes : 
+    \begin{cd}
+      {p_0^* \cF} & {p_1^* \cF} \\
+      {p_0^* \cG} & {p_1^* \cG}
+      \arrow["{p_0^*(\eta)}"', from=1-1, to=2-1]
+      \arrow["{p_1^*(\eta)}", from=1-2, to=2-2]
+      \arrow["\psi"', from=2-1, to=2-2]
+      \arrow["\phi", from=1-1, to=1-2]
+    \end{cd}
+  \end{itemize}
+  A weakly $G$-equivariant $D$-module on $X$
+  is a $D$-module on $X$ equipped with $G$-equivariance structure $\phi$
+  which is a morphism of $\cO_G \boxtimes D_X$-modules,
+  where we used $G \times X \simeq X \times_{X / G} X$.
+
+  A strongly $G$-equivariant $D$-module on $X$
+  is the same except we require $\phi$ is be a
+  morphism of $D_{G \times X}$-modules.
+\end{dfn}
+
+Using the equivalence of $D$-modules and crystals : 
+\[
+  D\MOD(X) \simeq \QCOH X_\DR
+\]
+the above definitions can be rephrased as follows : 
+\begin{enumerate}
+  \item The action of $G$ on $X$ induces an action of $G$ on $X_\DR$.
+  Thus, we have an action groupoid for $X_\DR$ : 
+  \begin{cd}
+    {G \times G \times X_\DR} & {G \times X_\DR} & {X_\DR}
+    \arrow[shift left=2, from=1-2, to=1-3]
+    \arrow[from=1-1, to=1-2]
+    \arrow[shift right=4, from=1-1, to=1-2]
+    \arrow[shift left=4, from=1-1, to=1-2]
+    \arrow[shift right=2, from=1-2, to=1-3]
+  \end{cd}
+  Then a weakly $G$-equivariant $D$-module on $X$
+  is equivalently a $G$-equivariant quasi-coherent sheaf on $X_\DR$.
+  \item Taking de Rham spaces commutes with limits of presheaves.
+  \footnote{
+    In fact, it commutes with colimits of presheaves too.
+  }
+  So $(G \times X)_\DR = G_\DR \times X_\DR$.
+  Then the action of $G$ on $X$ induces an action of
+  $G_\DR$ on $X_\DR$, giving us the action groupoid 
+  \begin{cd}
+    {G_\DR \times G_\DR \times X_\DR} & {G_\DR \times X_\DR} & {X_\DR}
+    \arrow[shift left=2, from=1-2, to=1-3]
+    \arrow[from=1-1, to=1-2]
+    \arrow[shift right=4, from=1-1, to=1-2]
+    \arrow[shift left=4, from=1-1, to=1-2]
+    \arrow[shift right=2, from=1-2, to=1-3]
+  \end{cd}
+  A strongly $G$-equivariant $D$-module on $X$
+  is thus equivalently a $G_\DR$-equivariant quasi-coherent sheaf on $X_\DR$.
+\end{enumerate}
+
+We have the following.
+\begin{prop}
+  
+  There is an equivalence of categories : 
+  \[
+    (\QCOH X_\DR)^{G_\DR} \simeq D\MOD(X / G)
+  \]
+  i.e. strongly $G$-equivariant $D$-modules on $X$
+  are equivalent to $D$-modules on $X / G$.
+\end{prop}
+\begin{proof}(Sketch)
+  
+  First, we define the functor $(\QCOH X_\DR)^{G_\DR} \to D\MOD(X / G)$.
+  Recall for a stack $\mathscr{X}$, 
+  $\mathcal{D}_{\mathscr{X}}$-modules on it are defined locally 
+  in the smooth topology $\mathscr{X}_{sm}$.
+  The objects of $\mathscr{X}_{sm}$ are pairs $(S,\pi_S)$ 
+  where $S$ is a scheme and 
+  $\pi_S : S \to \mathscr{X}$ is a smooth $1$-morphism. 
+  \cite[Section 1.1.2]{BD}
+  The morphisms between pairs $(S,\pi_S)$ and 
+  $(S^\prime, \pi_{S^\prime})$ are pairs $(\varphi,\alpha)$ 
+  where $\varphi: S \to S^\prime$ is a smooth morphism 
+  and $\alpha: \pi_S \xrightarrow[]{\sim} \pi_{S^\prime} \varphi$ is 
+  a $2$-morphism, i.e., it satisfies some kind of cocycle condition. 
+  Suppose we now have a strongly equivariant $D$-module $M$ on $X$.
+  Goal : for each $(S,\pi_S) \in (X / G)_{sm}$, 
+  we need to give a $\mathcal{D}_S$-module $M_S$, 
+  and, given a morphism 
+  $(\varphi, \alpha):(S,\pi_S) \to (S^\prime,\pi_{S^\prime})$ 
+  we need to give an isomorphism of 
+  $\mathcal{D}_{S}$-modules 
+  $\beta: \varphi^* M_{S^\prime} \xrightarrow[]{\sim} M_{S}$ 
+  satisfying a cocycle condition. 
+  The data of $(S , \pi_S)$ is equivalent to 
+  giving a principal $G$-bundle $p:P \to S$ together with 
+  a smooth $G$-equivariant morphism $\gamma: P \to X$. 
+  \begin{equation}
+  \begin{tikzcd}
+    P & X \\
+    S & {X/G}
+    \arrow["\gamma", from=1-1, to=1-2]
+    \arrow["p"', from=1-1, to=2-1]
+    \arrow[from=2-1, to=2-2]
+    \arrow[from=1-2, to=2-2]
+    \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+  \end{tikzcd}
+  \end{equation}
+  The point now is that $M$ pullback to a strongly equivariant 
+  $D$-module $N$ on $P$.
+  The $G$-invariant sections $N^G$ of $N$ then 
+  determine a $\mathcal{D}_S$-module $M_S$ on $S$. 
+  This is because $\mathcal{D}_S$ embeds into $(\mathcal{D}_P)^G$: 
+  if $P = G \times S$ is trivial then 
+  $\mathcal{D}_S \hookrightarrow (\mathcal{D}_{G \times S})^G$, 
+  and one can use a fpqc-local triviality of $G$-bundles 
+  to reduce to this case. 
+  One can check that this procedure produces 
+  a well-defined $D$-module on $X / G$.
+
+  For a quasi-inverse functor,
+  note that amongst $(X / G)_{\text{sm}}$ are
+  the following fiber squares
+  \begin{cd}
+    {X \times_{X / G} X} & X & \simeq & {G \times X} & X \\
+    X & {X / G} && X & {X / G}
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=2-1, to=2-2]
+    \arrow[from=1-1, to=1-2]
+    \arrow[from=1-2, to=2-2]
+    \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+    \arrow["{g , x \mapsto x}"', from=1-4, to=2-4]
+    \arrow[from=2-4, to=2-5]
+    \arrow[from=1-5, to=2-5]
+    \arrow["{\text{act}}", from=1-4, to=1-5]
+    \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-4, to=2-5]
+  \end{cd}
+  \begin{cd}
+    {X \times_{X / G} X \times_{X / G} X } & X & \simeq & {G \times G \times X} & X \\
+    {X \times_{X / G} X} & {X / G} && {G \times X} & {X / G}
+    \arrow[from=1-5, to=2-5]
+    \arrow[from=2-4, to=2-5]
+    \arrow[from=1-4, to=2-4]
+    \arrow[from=1-4, to=1-5]
+    \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-4, to=2-5]
+    \arrow[from=1-2, to=2-2]
+    \arrow[from=1-1, to=1-2]
+    \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=1-1, to=2-2]
+    \arrow[from=2-1, to=2-2]
+    \arrow[from=1-1, to=2-1]
+  \end{cd}
+  There are three of these second kind
+  corresponding to the three projections $p_{01}, p_{12} , p_{02}$
+  of the action groupoid of $G$ on $X$.
+  \footnote{
+    The action map $G \times X \to X$ is smooth because it is the 
+    composition of $G \times X \simeq G \times X , (g , x) \mapsto (g , g x)$
+    with the second projection.
+  }
+  Now given a $D$-module $\mathscr{N}$ on $X / G$,
+  the cartesian square of the first kind
+  gives a $D$-module $N$ on $X$.
+  There are morphisms between the cartesian square of the first kind
+  and the cartesian squares of the second kind
+  in $(X /G)_{\mathrm{sm}}$.
+  These produce the transition map for a strong $G$-equivariance structure
+  on $N$ and 
+  the cocycle condition for $\mathscr{N}$ gives
+  the cocycle condition for the the strong $G$-equivariance.
+
+\end{proof}
+
+\section{Relativising to the entire curve}
+
+Back to Hecke actions.
+The previous discussion of $\SPH_G$ does not involve the curve $X$.
+Given a closed point $x$ of the curve $X$
+and a choice $k\bbrkt{t} \simeq \cO^\wedge_x$,
+we can replace the disk and punctured disk around $0$ in $\bA^1$
+by the disk and punctured disk around $x$ in $X$.
+(If need more material,
+can define $D_{x_S}, D_{x_S}^\circ$.)
+In other words, we have isomorphisms : 
+\[
+  LG \simeq L_x G \,\,\,\,\,\,
+  L^+G \simeq L^+_x G
+\]
+where $L_x G (S) = G(D_{x_S}^\circ)$
+and $L_x^+ G(S) =  G(D_{x_S})$.
+These isomorphisms induce 
+\[
+  \SPH_G \simeq \SPH_{G,x}
+\]
+where the latter is the category of $D$-modules on 
+$L^+_x G \backslash (L_x G / L_x^+ G)$.
+From the talk in week 1, 
+we can make an action of $\SPH_{G , x}$ on $D\MOD(\BUN_G)$
+by considering the $L_x^+G$-bundle $\BUN_{G , x}^{\text{lvl}} \to \BUN_G$
+and the regluing action of $L_x G$ on $\BUN_{G , x}^{\text{lvl}}$.
+I now justify my claim in week 1 that there is a way of doing all of this
+in families above $X$.
+
+The trick is to consider the ``bundle of uniformisers'' : 
+\[
+  \widehat{X}^+(S) := \set{(x , \al) \st x \in X(S) , 
+  \al : D_{x_S} \simeq D_S \text{ preserving $S$}}
+\]
+Examples of points of this is given by 
+\cite[\href{https://stacks.math.columbia.edu/tag/05D5}{Tag 05D5}]{stacks-project}.
+The forgetful map $\widehat{X}^+ \to X$ is a bundle for
+the pro-algebraic group $\AUT^+ D$ of automorphisms of $D$
+preserving $0$.
+There is an action of $\AUT^+ D$ on $LG , L^+ G , \GR_G$
+then the relativisation precedure is twisting these
+using $\widehat{X}^+$.
+\begin{align*}
+  L_X^+ G &:= \widehat{X}^+ \times^{\AUT^+ D} L^+ G \\
+  L_X G &:= \widehat{X}^+ \times^{\AUT^+ D} L G \\
+  \GR_{G , X} &:= \widehat{X}^+ \times^{\AUT^+ D} \GR_G
+\end{align*}
+The final object here is called the \emph{Beilinson--Drinfeld Grassmannian}
+and it will play a crucial role in proving
+that the monoidal structure on $\SPH_G$ is symmetric,
+i.e. the categorification of the fact that
+convolution product on the spherical Hecke algebra is commutative.
+
+
+
+\printbibliography
+
+\end{document}

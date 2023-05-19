@@ -1,0 +1,82 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{BD}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=ab87193a439f9abdd62d93fd890789df}{%
+           family={Beilinson},
+           familyi={B\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a75be652ad641d70e22f7ab7a1b63ceb}{%
+           family={Drinfeld},
+           familyi={D\bibinitperiod},
+           given={Vladimir},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{57cc6eb9bdc8fbd306f02b4d5cfb2fbe}
+      \strng{fullhash}{57cc6eb9bdc8fbd306f02b4d5cfb2fbe}
+      \strng{bibnamehash}{57cc6eb9bdc8fbd306f02b4d5cfb2fbe}
+      \strng{authorbibnamehash}{57cc6eb9bdc8fbd306f02b4d5cfb2fbe}
+      \strng{authornamehash}{57cc6eb9bdc8fbd306f02b4d5cfb2fbe}
+      \strng{authorfullhash}{57cc6eb9bdc8fbd306f02b4d5cfb2fbe}
+      \field{labelalpha}{BD}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{shorthand}{BD}
+      \field{title}{Quantization of Hitchin's Integrable System and Hecke Eigensheaves}
+      \verb{urlraw}
+      \verb https://math.uchicago.edu/~drinfeld/langlands/QuantizationHitchin.pdf
+      \endverb
+      \verb{url}
+      \verb https://math.uchicago.edu/~drinfeld/langlands/QuantizationHitchin.pdf
+      \endverb
+    \endentry
+    \entry{stacks-project}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=abb7996abcbb3ba4cf4194c8dcb595ca}{%
+           family={{Stacks Project Authors}},
+           familyi={S\bibinitperiod},
+           given={The},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{abb7996abcbb3ba4cf4194c8dcb595ca}
+      \strng{fullhash}{abb7996abcbb3ba4cf4194c8dcb595ca}
+      \strng{bibnamehash}{abb7996abcbb3ba4cf4194c8dcb595ca}
+      \strng{authorbibnamehash}{abb7996abcbb3ba4cf4194c8dcb595ca}
+      \strng{authornamehash}{abb7996abcbb3ba4cf4194c8dcb595ca}
+      \strng{authorfullhash}{abb7996abcbb3ba4cf4194c8dcb595ca}
+      \field{labelalpha}{Stacks}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://stacks.math.columbia.edu}}
+      \field{shorthand}{Stacks}
+      \field{title}{\textit{Stacks Project}}
+      \field{year}{2018}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
